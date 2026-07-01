@@ -23,7 +23,7 @@ def _get_list(env_var: str, default: str) -> list[str]:
 DB_PATH = os.getenv("DB_PATH", "./data/currency_exchange.db")
 
 # --- API ---
-FRANKFURTER_BASE_URL = os.getenv("FRANKFURTER_BASE_URL", "https://api.frankfurter.dev/v1")
+FRANKFURTER_BASE_URL = os.getenv("FRANKFURTER_BASE_URL", "https://api.frankfurter.dev/v2")
 BASE_CURRENCY = os.getenv("BASE_CURRENCY", "USD").upper()
 TARGET_CURRENCIES = _get_list("TARGET_CURRENCIES", "UZS,RUB,EUR,GBP")
 
