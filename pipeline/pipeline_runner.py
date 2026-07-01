@@ -29,6 +29,12 @@ def process_one_date(conn, target_date: date) -> dict:
     just echoes back Friday's rate again).
     """
     date_str = target_date.isoformat()
+
+    # Skip weekends before even calling the API
+    if target_date.weekday() >= 5:
+        logger.info(f"{date_str} is a weekend -- skipping.")
+        return {"date": date_str, "status": "skipped_non_trading_day"}
+
     try:
         response = fetch_for_date(date_str)
     except HTTPError as e:
@@ -38,7 +44,7 @@ def process_one_date(conn, target_date: date) -> dict:
     actual_date = response.get("date")
     if actual_date != date_str:
         logger.info(
-            f"{date_str} is a non-trading day (weekend/holiday) -- "
+            f"{date_str} is a public holiday -- "
             f"Frankfurter returned rates for {actual_date} instead. Skipping write."
         )
         return {"date": date_str, "status": "skipped_non_trading_day", "actual_date": actual_date}
